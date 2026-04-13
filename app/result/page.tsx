@@ -1,13 +1,10 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function Result() {
+function ResultContent() {
   const params = useSearchParams();
-
-  if (!params) return null;
 
   const score = params.get("score");
   const total = params.get("total");
@@ -17,5 +14,13 @@ export default function Result() {
       <h1>Your Result</h1>
       <h2>{score} / {total}</h2>
     </div>
+  );
+}
+
+export default function Result() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <ResultContent />
+    </Suspense>
   );
 }
